@@ -20,12 +20,17 @@ cp .env.example .env.production
 cp ./backend/prisma/.env.example ./backend/prisma/.env
 ```
 
-Edit env-files for your purposes.
+> Edit env-files for your purposes.
+
+Install dependencies:
 
 ```bash
 cd backend
-npm i
+npm i # or `npm ci` if you need exact versions of the packages locked in `package-lock.json`
+cd ..
 ```
+
+> Make sure the current dir is set to the root of the project before working with `docker compose`.
 
 ### Development
 
