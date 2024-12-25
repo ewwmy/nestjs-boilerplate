@@ -1,13 +1,13 @@
 services:
-  dictionary-backend:
+  nestjs-boilerplate-backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     environment:
       NODE_ENV: ${NODE_ENV:-production}
       DATABASE_URL: ${DATABASE_URL:-}
-    image: dictionary-backend:latest
-    container_name: dictionary-backend
+    image: nestjs-boilerplate-backend:latest
+    container_name: nestjs-boilerplate-backend
     restart: always
     ports:
       - "${APP_HOST_PORT:-3000}:${APP_DOCKER_PORT:-3000}"
@@ -15,17 +15,17 @@ services:
       - ./backend/src:/app/src
       - ./backend/prisma:/app/prisma
     depends_on:
-      - postgres
+      - nestjs-boilerplate-db
 
-  postgres:
+  nestjs-boilerplate-db:
     image: postgres:17.2
-    container_name: dictionary-db
+    container_name: nestjs-boilerplate-db
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      POSTGRES_DB: ${POSTGRES_DB:-dictionary}
+      POSTGRES_USER: ${POSTGRES_USER:-nestjs-boilerplate}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-nestjs-boilerplate}
+      POSTGRES_DB: ${POSTGRES_DB:-nestjs-boilerplate}
     volumes:
-      - postgres-data-prod:/var/lib/postgresql/data
+      - nestjs-boilerplate-data-prod:/var/lib/postgresql/data
 
 volumes:
-  postgres-data-prod:
+  nestjs-boilerplate-data-prod:

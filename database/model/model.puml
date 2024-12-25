@@ -1,0 +1,46 @@
+@startuml nestjs-boilerplate
+
+' this flag is used to make wires straight-angled:
+' skinparam linetype ortho
+
+entity users {
+  * id : INT <<PK>> <<AI>>
+  ---
+  * name : STRING
+  * email : STRING
+  * password : STRING
+  reset_password_token : STRING
+  * is_active : BOOLEAN = 0
+  * time_create : TIMESTAMP
+  time_edit : TIMESTAMP
+}
+
+entity posts {
+  * id : INT <<PK>> <<AI>>
+  ---
+  * user_id : INT <<FK>>
+  ---
+  * name : STRING
+  contents : STRING
+  is_published : BOOLEAN = 0
+  * time_create : TIMESTAMP
+  time_edit : TIMESTAMP
+}
+
+entity tags {
+  * id : INT <<PK>> <<AI>>
+  ---
+  * name : STRING
+  title : STRING
+}
+
+entity posts_tags {
+  * post_id : INT <<PK>> <<FK>>
+  * tag_id : INT <<PK>> <<FK>>
+}
+
+users ||..o{ posts : "user_id"
+tags ||--o{ posts_tags : "tag_id"
+posts_tags }o--|| posts : "post_id"
+
+@enduml

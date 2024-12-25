@@ -1,15 +1,31 @@
-# Dictionary
+# NestJS Boilerplate
 
-🚀 Backend for language learners 🎓 to easily write down, store, and memorize vocabulary and phrases 📘 with advanced review techniques 🔥
+🚀 Features:
+
+- Dockerized
+- PostgreSQL database
+  - Test database included
+  - Simple NestJS controller which communicates with the database
+  - Prisma ORM
+- Convenient development environment with watch mode through the Docker
+- `dev` / `prod` Docker build modes
+- Migrations
+- Seeder 
 
 ## Run
 
 ```bash
 cp .env.example .env.development
 cp .env.example .env.production
+cp ./backend/prisma/.env.example ./backend/prisma/.env
 ```
 
 Edit env-files for your purposes.
+
+```bash
+cd backend
+npm i
+```
 
 ### Development
 
@@ -34,7 +50,7 @@ docker compose down
 ### Development
 
 ```bash
-psql -h localhost -p 5432 -U dictionary -d dictionary
+psql -h localhost -p 5432 -U nestjs-boilerplate -d nestjs-boilerplate
 ```
 
 #### Migrations
@@ -50,13 +66,13 @@ npm run migrate:dev -- --name migration_name
 Inside the docker container:
 
 ```bash
-docker compose exec dictionary-backend npx prisma migrate dev --name migration_name
+docker compose exec nestjs-boilerplate-backend npx prisma migrate dev --name migration_name
 ```
 
 Outside the docker container (make sure you have set the `DATABASE_URL` variable in your environment):
 
 ```bash
-DATABASE_URL=postgresql://user:password@localhost:5432/dictionary npx prisma migrate dev --name migration_name
+DATABASE_URL=postgresql://user:password@localhost:5432/nestjs-boilerplate npx prisma migrate dev --name migration_name
 ```
 
 or (`prisma/.env` file with the `DATABASE_URL` variable must exist):
@@ -70,13 +86,13 @@ npx prisma migrate dev --name migration_name
 ##### Inside the Docker container
 
 ```bash
-docker compose exec dictionary-backend npx prisma db seed
+docker compose exec nestjs-boilerplate-backend npx prisma db seed
 ```
 
 ##### Outside Docker
 
 ```bash
-DATABASE_URL=postgresql://user:password@localhost:5432/dictionary npx prisma db seed
+DATABASE_URL=postgresql://user:password@localhost:5432/nestjs-boilerplate npx prisma db seed
 ```
 
 or just (if the `DATABASE_URL` environment variable is set properly):
@@ -90,8 +106,8 @@ npx prisma db seed
 In this mode the database container is not accessible from outside, so we need to connect to the backend container first to access the database service from it:
 
 ```bash
-docker exec -it dictionary-backend /bin/sh
+docker exec -it nestjs-boilerplate-backend /bin/sh
 apk update
 apk add postgresql-client
-psql -h postgres -U dictionary -d dictionary # hostname (-h) can be either the service name or the container name from the docker compose config
+psql -h nestjs-boilerplate -U nestjs-boilerplate -d nestjs-boilerplate # hostname (-h) can be either the service name or the container name from the docker compose config
 ```
